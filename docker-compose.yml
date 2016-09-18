@@ -1,0 +1,27 @@
+db:
+  image: mysql:5.6
+  container_name: mysql
+  ports:
+      - 3306:3306
+  volumes:
+    - mysqldata:/var/lib/mysql
+  environment:
+    - MYSQL_ROOT_PASSWORD=secret
+    - MYSQL_DATABASE=springsecurity
+    - MYSQL_USER=root
+    - MYSQL_PASSWORD=
+
+appserver:
+  build: docker/appserver
+  container_name: tomcat
+  links:
+    - db:mysql
+  ports:
+    - 8080:8080
+    - 443:443
+    - 9001:9001 #remote debugging
+  volumes:
+    # Mount project's exploded war
+    - ./build/exploded:/usr/local/tomcat/webapps/toptal
+    # Mount Tomcat logs
+    - ./build/tomcat/logs:/usr/local/tomcat/logs

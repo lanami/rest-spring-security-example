@@ -1,0 +1,117 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:sec="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/security
+        http://www.springframework.org/schema/security/spring-security.xsd">
+
+	<context:component-scan base-package="lanami.example.spingsecurity"/>
+
+	<mvc:annotation-driven conversion-service="conversionService">
+		<mvc:message-converters>
+			<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+				<property name="objectMapper">
+					<bean class="lanami.example.spingsecurity.persistence.HibernateAwareObjectMapper" />
+				</property>
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+
+	<bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
+		<property name="converters">
+			<set>
+				<bean class="lanami.example.spingsecurity.service.RoleConverter" />
+			</set>
+		</property>
+	</bean>
+
+	<bean id="messageSource"
+	      class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basename" value="messages"/>
+	</bean>
+
+
+	<!-- ======================== ORM ========================= -->
+
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${db.driverClass}"/>
+		<property name="url" value="${db.connectionURL}"/>
+		<property name="username" value="${db.username}"/>
+		<property name="password" value="${db.password}"/>
+	</bean>
+
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSource"/>
+		</property>
+		<property name="packagesToScan" value="lanami.example.spingsecurity.domain"/>
+
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.format_sql">true</prop>
+				<prop key="use_sql_comments">true</prop>
+				<prop key="default_batch_fetch_size">10</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="txManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+
+	<tx:annotation-driven transaction-manager="txManager"/>
+
+
+	 <!-- ======================== SECURITY ========================= -->
+
+	<sec:global-method-security pre-post-annotations="enabled" proxy-target-class="true" authentication-manager-ref="authenticationManager"/>
+
+	<sec:http authentication-manager-ref="authenticationManager" entry-point-ref="restServicesEntryPoint"
+			create-session="stateless">
+		<sec:intercept-url pattern="/**" access="permitAll()" method="OPTIONS"/>
+		<sec:intercept-url pattern="/auth/**" access="permitAll()"/>
+		<sec:intercept-url pattern="/secure/**" access="isAuthenticated()"/>
+
+		<sec:logout />
+		<sec:custom-filter ref="authTokenFilter" before="PRE_AUTH_FILTER"/>
+		<sec:csrf disabled="true"/>
+	</sec:http>
+
+	<bean id="authSuccessHandler" class="lanami.example.spingsecurity.security.RestAuthenticationSuccessHandler" />
+	<bean id="authFailureHandler" class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler" />
+
+	<bean id="restServicesEntryPoint" class="lanami.example.spingsecurity.security.RestAuthenticationEntryPoint" />
+
+	<bean id="authTokenFilter" class="lanami.example.spingsecurity.security.AuthenticationTokenFilter">
+		<property name="authenticationManager" ref="authenticationManager" />
+	</bean>
+
+	<bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+	<bean id="authenticationTrustResolver" class="org.springframework.security.authentication.AuthenticationTrustResolverImpl" />
+
+	<bean id="daoAuthenticationProvider"
+	            class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
+		<property name="userDetailsService" ref="userDetailsService"/>
+		<property name="passwordEncoder" ref="passwordEncoder"/>
+	</bean>
+
+	<sec:authentication-manager id="authenticationManager">
+		<sec:authentication-provider ref="daoAuthenticationProvider"/>
+	</sec:authentication-manager>
+
+</beans>

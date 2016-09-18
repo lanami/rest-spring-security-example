@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+	<changeSet id="createSchema-1" author="lana.kolupaeva">
+		<createTable tableName="user">
+			<column name="id" type="bigint" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false"/>
+			</column>
+			<column name="username" type="varchar(50)">
+				<constraints unique="true" nullable="false"/>
+			</column>
+			<column name="password" type="varchar(60)">  <!-- BCrypt length -->
+				<constraints nullable="false"/>
+			</column>
+			<column name="firstName" type="varchar(50)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="lastName" type="varchar(50)">
+				<constraints nullable="false"/>
+			</column>
+		</createTable>
+
+		<createTable tableName="role">
+			<column name="id" type="bigint" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false"/>
+			</column>
+			<column name="type" type="varchar(50)">
+				<constraints unique="true" nullable="false"/>
+			</column>
+		</createTable>
+
+		<createTable tableName="user_role">
+			<column name="user_id" type="bigint">
+				<constraints nullable="false"/>
+			</column>
+			<column name="role_id" type="bigint">
+				<constraints nullable="false"/>
+			</column>
+		</createTable>
+
+		<addPrimaryKey tableName="user_role"
+		               columnNames="user_id, role_id"
+		               constraintName="pk_user_role"/>
+
+		<addForeignKeyConstraint constraintName="fk_user"
+		                         baseTableName="user_role" baseColumnNames="user_id"
+		                         referencedTableName="user" referencedColumnNames="id" />
+		<addForeignKeyConstraint constraintName="fk_role"
+		                         baseTableName="user_role" baseColumnNames="role_id"
+		                         referencedTableName="role" referencedColumnNames="id" />
+	</changeSet>
+
+	<changeSet id="createSchema-2" author="lana.kolupaeva">
+		<createTable tableName="entry">
+			<column name="id" type="bigint" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false"/>
+			</column>
+			<column name="date" type="date">
+				<constraints nullable="false"/>
+			</column>
+			<column name="time" type="time">
+				<constraints nullable="false"/>
+			</column>
+			<column name="calorie" type="int">
+				<constraints nullable="false"/>
+			</column>
+			<column name="comment" type="varchar(250)"/>
+			<column name="user_id" type="bigint">
+				<constraints nullable="false"/>
+			</column>
+		</createTable>
+
+		<addForeignKeyConstraint constraintName="fk_entry_user"
+		                         baseTableName="entry" baseColumnNames="user_id"
+		                         referencedTableName="user" referencedColumnNames="id" />
+	</changeSet>
+
+</databaseChangeLog>

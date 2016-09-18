@@ -1,0 +1,11 @@
+# Build folders
+build
+gradle
+out
+
+# Tooling work folders
+.gradle
+.idea
+*.iml
+
+

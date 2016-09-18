@@ -1,0 +1,19 @@
+Secure RESTful Web Service on Spring Security
+======
+
+Three types of users:
+USER - can CRUD own data
+MANAGER - can CRU other users' data
+AMIN - can CRUD everybody's data
+
+Technology stack:
+- Java
+- Spring (Core, MVC, ORM)
+- Spring Security
+- Hibernate
+- Jackson
+
+Dependency / Environment Management:
+- Gradle
+- Liquibase
+- Docker
