@@ -1,5 +1,5 @@
 # start from a pre-packaged tomcat appserver on boot2docker
-FROM tomcat
+FROM tomcat:jre8
 
 # install vim
 RUN apt-get update && apt-get install -y vim

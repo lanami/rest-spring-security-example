@@ -5,7 +5,7 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import java.io.Serializable;
 
 /**
- * @author Lana Kolupaeva
+ * @author lanami
  * @date 2016-09-08
  */
 public class AuthenticationRequest implements Serializable {

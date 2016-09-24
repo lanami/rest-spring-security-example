@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * @author Lana Kolupaeva
+ * @author lanami
  * @date 2016-09-09
  */
 public class ResponseEnvelope implements Serializable {

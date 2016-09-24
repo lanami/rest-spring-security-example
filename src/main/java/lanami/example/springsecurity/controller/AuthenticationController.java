@@ -31,7 +31,7 @@ import java.util.Locale;
 /**
  * Unsecured controller available to anonymous users.
  *
- * @author Lana Kolupaeva
+ * @author lanami
  * @date 2016-09-08
  */
 @RestController

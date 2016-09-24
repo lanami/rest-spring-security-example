@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author Lana Kolupaeva
+ * @author lanami
  */
 public abstract class Utils {
 

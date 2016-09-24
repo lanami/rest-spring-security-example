@@ -22,6 +22,6 @@ appserver:
     - 9001:9001 #remote debugging
   volumes:
     # Mount project's exploded war
-    - ./build/exploded:/usr/local/tomcat/webapps/toptal
+    - ./build/exploded:/usr/local/tomcat/webapps/rest-spring-security
     # Mount Tomcat logs
-    - ./build/tomcat/logs:/usr/local/tomcat/logs
+    - ./build/logs:/usr/local/tomcat/logs

@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * @author Lana Kolupaeva
+ * @author lanami
  * @date 2016-09-06
  */
 @RestController

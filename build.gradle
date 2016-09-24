@@ -14,9 +14,10 @@ plugins {
     id 'org.liquibase.gradle' version '1.2.1'
 }
 
-group = 'ca.kolupaev.toptal.caloriecounter'
+group = 'lanami.example'
+name = 'rest-spring-security'
 version = '1.0-SNAPSHOT'
-description = 'Calorie counter'
+description = 'Spring Security - Secured REST Service Example'
 
 sourceCompatibility = '1.7'
 targetCompatibility = '1.7'
@@ -30,9 +31,8 @@ ext {
     jacksonVersion = '2.5.3'
     mysqlVersion = '5.1.9'
     liquibaseVersion = '3.3.2'
-    tilesVersion = '3.0.5'
     servletVersion = '3.0-alpha-1'
-    jstlVersion = '1.2'
+    jjwtVersion = '0.4'
 }
 
 repositories {
@@ -50,10 +50,11 @@ dependencies {
     compile group: 'org.springframework', name: 'spring-tx', version: springVersion
     compile group: 'org.springframework', name: 'spring-orm', version: springVersion
 
-    // Spring Security
+    // Security
     compile group: 'org.springframework.security', name: 'spring-security-web', version: springSecurityVersion
     compile group: 'org.springframework.security', name: 'spring-security-config', version: springSecurityVersion
     compile group: 'org.springframework.security', name: 'spring-security-taglibs', version: springSecurityVersion
+    compile group: 'io.jsonwebtoken', name: 'jjwt', version: jjwtVersion
 
     // Hibernate
     compile group: 'org.hibernate', name: 'hibernate-core', version: hibernateVersion
@@ -73,7 +74,6 @@ dependencies {
     // Utils
     compile group: 'commons-logging', name: 'commons-logging', version: '1.2'
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.4'
-    compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.4'
 
     providedCompile group: 'javax.servlet', name: 'servlet-api', version: servletVersion
     providedCompile group: 'org.liquibase', name: 'liquibase-core', version: '3.5.1'

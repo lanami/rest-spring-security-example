@@ -5,7 +5,7 @@ import lanami.example.springsecurity.domain.User;
 import java.util.List;
 
 /**
- * @author Lana Kolupaeva
+ * @author lanami
  * @date 2016-08-30
  */
 public interface IUserDAO {

@@ -3,7 +3,7 @@ package lanami.example.springsecurity.domain;
 import java.io.Serializable;
 
 /**
- * @author Lana Kolupaeva
+ * @author lanami
  * @date 2016-09-06
  */
 public enum UserRoleType implements Serializable {

@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author Lana Kolupaeva
+ * @author lanami
  * @date 2016-09-08
  */
 @Component

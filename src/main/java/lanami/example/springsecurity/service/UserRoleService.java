@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 /**
- * @author Lana Kolupaeva
+ * @author lanami
  * @date 2016-09-06
  */
 @Service("userRoleService")

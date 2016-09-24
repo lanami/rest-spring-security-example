@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 
 /**
- * @author Lana Kolupaeva
+ * @author lanami
  * @date 2016-09-06
  */
 public abstract class AbstractDAO <PK extends Serializable, T> {

@@ -5,7 +5,7 @@ import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
- * @author Lana Kolupaeva
+ * @author lanami
  * @date 2016-09-05
  */
 

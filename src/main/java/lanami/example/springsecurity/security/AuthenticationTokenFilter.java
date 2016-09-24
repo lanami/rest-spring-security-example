@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 /**
- * @author Lana Kolupaeva
+ * @author lanami
  * @author 2016-09-08
  */
 public class AuthenticationTokenFilter extends UsernamePasswordAuthenticationFilter {

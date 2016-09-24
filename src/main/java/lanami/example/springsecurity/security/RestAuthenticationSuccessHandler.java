@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * @author Lana Kolupaeva
+ * @author lanami
  * @date 2016-09-08
  */
 public class RestAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {

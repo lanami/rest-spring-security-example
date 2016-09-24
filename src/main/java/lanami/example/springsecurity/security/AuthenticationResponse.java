@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.Set;
 
 /**
- * @author Lana Kolupaeva
+ * @author lanami
  * @date 2016-09-08
  */
 public class AuthenticationResponse implements Serializable {

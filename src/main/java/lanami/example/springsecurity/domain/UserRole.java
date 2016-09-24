@@ -8,14 +8,14 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 /**
- * @author Lana Kolupaeva
+ * @author lanami
  * @date 2016-09-06
  */
 @Entity
 @Table(name = "role")
 public class UserRole implements Serializable {
-    @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+
+    @Id @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
     @Column(name="TYPE", length=15, unique=true, nullable=false)

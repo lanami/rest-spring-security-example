@@ -9,7 +9,7 @@ import com.fasterxml.jackson.datatype.hibernate5.Hibernate5Module;
  *
  * {@see com.fasterxml.jackson.annotation package for annatonations enabling control over JSON serialization}
  *
- * @author Lana Kolupaeva
+ * @author lanami
  * @date 2016-09-08
  */
 public class HibernateAwareObjectMapper extends ObjectMapper {

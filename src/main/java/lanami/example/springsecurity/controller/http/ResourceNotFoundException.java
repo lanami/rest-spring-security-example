@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 /**
- * @author Lana Kolupaeva
+ * @author lanami
  * @date 2016-09-08
  */
 @ResponseStatus(value = HttpStatus.NOT_FOUND)

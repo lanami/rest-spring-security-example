@@ -16,7 +16,11 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * @author Lana Kolupaeva
+ *
+ * Extend Spring Security User to hold additional properties.
+ * Think of UserDetails as the adapter between your own user database and what Spring Security needs inside the SecurityContextHolder. B
+
+ * @author lanami
  * @author 2016-09-05
  */
 @Service("userDetailsService")

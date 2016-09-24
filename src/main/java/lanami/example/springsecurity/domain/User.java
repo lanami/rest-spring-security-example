@@ -3,27 +3,41 @@ package lanami.example.springsecurity.domain;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.util.Collection;
+import java.io.Serializable;
+import java.util.Set;
 
 /**
- * Extend Spring Security User to hold additional properties.
- *
- * @author Lana Kolupaeva
+ * @author lanami
  * @date 2016-08-30
  */
 @Entity
 @Table(name = "user")
-public class User extends org.springframework.security.core.userdetails.User {
+public class User implements Serializable {
+
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    private String username;
-//    private String password;
+    @NotNull
+    @Pattern(regexp = "^[A-Za-z0-9]+$")
+    @Size(min = 3, max = 50)
+    @Column(unique = true)
+    private String username;
+
+    @NotNull
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{3,}$")
+    @Size(min=3, max = 60) //bcrypt hash length = 60
+    private String password;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_role",
+            joinColumns = { @JoinColumn(name = "USER_ID") },
+            inverseJoinColumns = { @JoinColumn(name = "ROLE_ID") })
+    private Set<UserRole> roles;
 
     @Pattern(regexp = "^[A-Za-z0-9]+$")
     @Size(min = 2, max = 50)
@@ -33,38 +47,38 @@ public class User extends org.springframework.security.core.userdetails.User {
     @Size(min = 2, max = 50)
     private String lastName;
 
-//    private Set<UserRole> roles = new HashSet<UserRole>();
 
-    public User(String username, String password, Collection<? extends GrantedAuthority> authorities) {
-        super(username, password, authorities);
+
+    public String getUsername() {
+        return username;
     }
 
-    public User(String username, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
-        super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Set<UserRole> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<UserRole> roles) {
+        this.roles = roles;
+    }
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    @NotNull
-    @Pattern(regexp = "^[A-Za-z0-9]+$")
-    @Size(min = 3, max = 50)
-    @Column(unique = true)
-    public String getUsername() {
-        return super.getUsername();
-    }
-
-    @NotNull
-    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{3,}$")
-    @Size(min=3, max = 60) //bcrypt hash length = 60
-    public String getPassword() {
-        return super.getPassword();
     }
 
     public String getFirstName() {
@@ -81,15 +95,6 @@ public class User extends org.springframework.security.core.userdetails.User {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "user_role",
-            joinColumns = { @JoinColumn(name = "USER_ID") },
-            inverseJoinColumns = { @JoinColumn(name = "ROLE_ID") })
-    @Override
-    public Collection<GrantedAuthority> getAuthorities() {
-        return super.getAuthorities();
     }
 
     @Override

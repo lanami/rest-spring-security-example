@@ -1,7 +1,7 @@
 package lanami.example.springsecurity.service;
 
 /**
- * @author Lana Kolupaeva
+ * @author lanami
  * @date 2016-09-06
  */
 

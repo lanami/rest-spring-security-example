@@ -16,13 +16,13 @@
         http://www.springframework.org/schema/security
         http://www.springframework.org/schema/security/spring-security.xsd">
 
-	<context:component-scan base-package="lanami.example.spingsecurity"/>
+	<context:component-scan base-package="lanami.example.springsecurity"/>
 
 	<mvc:annotation-driven conversion-service="conversionService">
 		<mvc:message-converters>
 			<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
 				<property name="objectMapper">
-					<bean class="lanami.example.spingsecurity.persistence.HibernateAwareObjectMapper" />
+					<bean class="lanami.example.springsecurity.persistence.HibernateAwareObjectMapper" />
 				</property>
 			</bean>
 		</mvc:message-converters>
@@ -31,7 +31,7 @@
 	<bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
 		<property name="converters">
 			<set>
-				<bean class="lanami.example.spingsecurity.service.RoleConverter" />
+				<bean class="lanami.example.springsecurity.service.RoleConverter" />
 			</set>
 		</property>
 	</bean>
@@ -55,7 +55,7 @@
 		<property name="dataSource">
 			<ref bean="dataSource"/>
 		</property>
-		<property name="packagesToScan" value="lanami.example.spingsecurity.domain"/>
+		<property name="packagesToScan" value="lanami.example.springsecurity.domain"/>
 
 		<property name="hibernateProperties">
 			<props>
@@ -92,12 +92,12 @@
 		<sec:csrf disabled="true"/>
 	</sec:http>
 
-	<bean id="authSuccessHandler" class="lanami.example.spingsecurity.security.RestAuthenticationSuccessHandler" />
+	<bean id="authSuccessHandler" class="lanami.example.springsecurity.security.RestAuthenticationSuccessHandler" />
 	<bean id="authFailureHandler" class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler" />
 
-	<bean id="restServicesEntryPoint" class="lanami.example.spingsecurity.security.RestAuthenticationEntryPoint" />
+	<bean id="restServicesEntryPoint" class="lanami.example.springsecurity.security.RestAuthenticationEntryPoint" />
 
-	<bean id="authTokenFilter" class="lanami.example.spingsecurity.security.AuthenticationTokenFilter">
+	<bean id="authTokenFilter" class="lanami.example.springsecurity.security.AuthenticationTokenFilter">
 		<property name="authenticationManager" ref="authenticationManager" />
 	</bean>
 
