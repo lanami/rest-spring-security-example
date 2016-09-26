@@ -2,28 +2,20 @@ package lanami.example.springsecurity;
 
 import org.springframework.validation.FieldError;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import static java.util.stream.Collectors.*;
 
 /**
  * @author lanami
  */
 public abstract class Utils {
 
-    public static List<String> translate(List<FieldError> fieldErrors){
+    /**
+     * Map Bean Validation field error messages by field name.
+     * */
+    public static Map<String, List<String>> translate(List<FieldError> fieldErrors){
 
-        List<String> res = new ArrayList<>();
-        for (FieldError fieldError : fieldErrors) {
-            res.add(String.format("%s %s", fieldError.getField(), fieldError.getDefaultMessage()));
-        }
-        return res;
-
-
-        //for that lucky Tomcat running Java 8...
-        //        return fieldErrors.stream().map(e -> {
-        //            String messageCode = e.getCodes()[0];
-        //            return messageSource.getMessage(messageCode, new String[]{}, Locale.getDefault());
-        //        }).collect(Collectors.toList());
-
+        return fieldErrors.stream().collect(groupingBy(FieldError::getField, mapping(FieldError::getDefaultMessage, toList())));
     }
 }

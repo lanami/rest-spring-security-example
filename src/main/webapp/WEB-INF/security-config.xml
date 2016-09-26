@@ -1,0 +1,46 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:sec="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/security
+        http://www.springframework.org/schema/security/spring-security.xsd">
+
+	<sec:global-method-security pre-post-annotations="enabled" proxy-target-class="true" authentication-manager-ref="authenticationManager"/>
+
+	<sec:http authentication-manager-ref="authenticationManager" entry-point-ref="restServicesEntryPoint" create-session="stateless">
+		<!--<sec:intercept-url pattern="/**" requires-channel="https"/>-->    <!-- TODO: set up HTTPS -->
+		<sec:intercept-url pattern="/token/**" access="permitAll()"/>
+		<sec:intercept-url pattern="/users" method="POST" access="permitAll()"/>
+		<sec:intercept-url pattern="/users/**" access="isAuthenticated()"/>
+
+		<sec:logout />
+
+		<sec:custom-filter ref="authTokenFilter" before="PRE_AUTH_FILTER"/>
+		<sec:csrf disabled="true"/>
+	</sec:http>
+
+	<bean id="authSuccessHandler" class="lanami.example.springsecurity.app.security.RestAuthenticationSuccessHandler" />
+	<bean id="authFailureHandler" class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler" />
+
+	<bean id="restServicesEntryPoint" class="lanami.example.springsecurity.app.security.RestAuthenticationEntryPoint" />
+
+	<bean id="authTokenFilter" class="lanami.example.springsecurity.app.security.AuthenticationTokenFilter">
+		<property name="authenticationManager" ref="authenticationManager" />
+	</bean>
+
+	<bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
+	<bean id="authenticationTrustResolver" class="org.springframework.security.authentication.AuthenticationTrustResolverImpl" />
+
+	<bean id="daoAuthenticationProvider"
+	      class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
+		<property name="userDetailsService" ref="userDetailsService"/>
+		<property name="passwordEncoder" ref="passwordEncoder"/>
+	</bean>
+
+	<sec:authentication-manager id="authenticationManager">
+		<sec:authentication-provider ref="daoAuthenticationProvider"/>
+	</sec:authentication-manager>
+
+</beans>

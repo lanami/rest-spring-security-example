@@ -5,22 +5,22 @@
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
 
 	<changeSet id="loadData-1" author="lanami">
-		<loadData tableName="user" file="src/main/resources/db/data/user.csv">
-	    <column header="ID" name="id" />
-	    <column header="USERNAME" name="username" />
-	    <column header="PASSWORD" name="password" />
-	    <column header="FIRSTNAME" name="firstname" />
-	    <column header="LASTNAME" name="lastname" />
+		<loadData tableName="USER" file="src/main/resources/db/data/user.csv">
+	    <column header="ID" name="ID" />
+	    <column header="USERNAME" name="USERNAME" />
+	    <column header="PASSWORD" name="PASSWORD" />
+	    <column header="FIRSTNAME" name="FIRSTNAME" />
+	    <column header="LASTNAME" name="LASTNAME" />
 		</loadData>
 
-		<loadData tableName="role" file="src/main/resources/db/data/role.csv">
-			<column header="ID" name="id" />
-			<column header="TYPE" name="type" />
+		<loadData tableName="ROLE" file="src/main/resources/db/data/role.csv">
+			<column header="ID" name="ID" />
+			<column header="TYPE" name="TYPE" />
 		</loadData>
 
-		<loadData tableName="user_role" file="src/main/resources/db/data/user_role.csv">
-			<column header="USER_ID" name="user_id" />
-			<column header="ROLE_ID" name="role_id" />
+		<loadData tableName="USER_ROLE" file="src/main/resources/db/data/user_role.csv">
+			<column header="USER_ID" name="USER_ID" />
+			<column header="ROLE_ID" name="ROLE_ID" />
 		</loadData>
 	</changeSet>
 

@@ -15,12 +15,11 @@ plugins {
 }
 
 group = 'lanami.example'
-name = 'rest-spring-security'
 version = '1.0-SNAPSHOT'
-description = 'Spring Security - Secured REST Service Example'
+description = 'Spring Security - Secured REST Web Service Example'
 
-sourceCompatibility = '1.7'
-targetCompatibility = '1.7'
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
 
 ext {
     springVersion = '4.3.2.RELEASE'
@@ -76,22 +75,11 @@ dependencies {
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.4'
 
     providedCompile group: 'javax.servlet', name: 'servlet-api', version: servletVersion
-    providedCompile group: 'org.liquibase', name: 'liquibase-core', version: '3.5.1'
-    providedCompile group: 'org.apache.tomcat', name: 'tomcat-catalina', version: '7.0.0'
+//    providedCompile group: 'org.liquibase', name: 'liquibase-core', version: '3.5.1'
 
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
 
-processResources {
-    filesMatching('**/*.properties') {
-        filter {
-            it.replace('${db.driverClass}', 'com.mysql.jdbc.Driver')
-                .replace('${db.connectionURL}', 'jdbc:mysql://192.168.99.100:3306/springsecurity?createDatabaseIfNotExist=true')
-                .replace('${db.username}', 'root')
-                .replace('${db.password}', 'secret')
-        }
-    }
-}
 
 liquibase {
     activities {
@@ -122,5 +110,8 @@ task explodedWar(type: Copy) {
     into "${buildDir}/exploded"
 }
 
+//run liquibase changesets
 build.dependsOn update
+
+//generate work folder for Tomcat
 build.dependsOn explodedWar
